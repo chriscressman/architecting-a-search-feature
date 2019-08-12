@@ -47,7 +47,7 @@ frankenstein = Book.create(
   image: 'frankenstein.jpg',
   description: 'Frankenstein; or, The Modern Prometheus is a novel written by English author Mary Shelley that tells the story of Victor Frankenstein, a young scientist who creates a hideous sapient creature in an unorthodox scientific experiment.',
   isbn: Faker::Code.unique.isbn,
-  published_at: Time.new('2018', '01', '01'),
+  published_at: Time.new('2018'),
   author: shelley
 )
 
@@ -56,7 +56,7 @@ jekyll_and_hyde = Book.create(
   image: 'dr-jekyll-and-mr-hyde.jpg',
   description: 'Strange Case of Dr Jekyll and Mr Hyde is a gothic novella by Scottish author Robert Louis Stevenson, first published in 1886. The work is also known as The Strange Case of Jekyll Hyde, Dr Jekyll and Mr Hyde, or simply Jekyll & Hyde. It is about a London legal practitioner named Gabriel John Utterson who investigates strange occurrences between his old friend, Dr Henry Jekyll, and the evil Edward Hyde.',
   isbn: Faker::Code.unique.isbn,
-  published_at: Time.new('2018', '01', '01'),
+  published_at: Time.new('2018'),
   author: stevenson
 )
 
@@ -65,7 +65,7 @@ time_matchine = Book.create(
   image: 'the-time-machine.jpg',
   description: 'The Time Machine is a science fiction novella by H. G. Wells, published in 1895 and written as a frame narrative. The work is generally credited with the popularization of the concept of time travel by using a vehicle or device to travel purposely and selectively forward or backward through time.',
   isbn: Faker::Code.unique.isbn,
-  published_at: Time.new('2019', '01', '01'),
+  published_at: Time.new('2019'),
   author: wells
 )
 
@@ -74,7 +74,7 @@ treasure_island = Book.create(
   image: 'treasure-island.jpg',
   description: 'Treasure Island is an adventure novel by Scottish author Robert Louis Stevenson, narrating a tale of "buccaneers and buried gold."',
   isbn: Faker::Code.unique.isbn,
-  published_at: Time.new('2019', '01', '01'),
+  published_at: Time.new('2019'),
   author: stevenson
 )
 
