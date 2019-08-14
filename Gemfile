@@ -41,3 +41,5 @@ gem "faker", "~> 2.1.2"
 gem "elasticsearch", "~> 7.3.0"
 
 gem "elasticsearch-model", "~> 7.0.0.pre"
+
+gem "elasticsearch-dsl", "~> 0.1.8"
