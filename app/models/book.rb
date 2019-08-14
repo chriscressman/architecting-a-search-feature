@@ -53,4 +53,14 @@ class Book < ApplicationRecord
       ]
     )
   end
+
+  def self.search_definition(filters: {}, sort: nil)
+    Elasticsearch::DSL::Search.search do
+      query do
+        match :name do
+          query 'frankenstein'
+        end
+      end
+    end
+  end
 end
