@@ -54,12 +54,49 @@ class Book < ApplicationRecord
     )
   end
 
-  def self.search_definition(filters: {}, sort: nil)
+  def self.sorts
+    {
+      best: {
+        display_name: 'Best Match',
+        field: '_score',
+        order: 'desc'
+      },
+      date: {
+        display_name: 'Date Published',
+        field: 'published_at',
+        order: 'desc'
+      },
+      title: {
+        display_name: 'Title',
+        field: 'name.raw',
+        order: 'asc'
+      }
+    }
+  end
+
+  # search_definition(
+  #   'frankenstein',
+  #   :date,
+  #   { authors: [1], genres: [1,2], published_at_years: [2018] }
+  # )
+  def self.search_definition(search_query, sort=:best, filters={})
     Elasticsearch::DSL::Search.search do
+
       query do
-        match :name do
-          query 'frankenstein'
+        multi_match do
+          query search_query
+          fields [
+            'isbn^10',
+            'name^9',
+            'author_name^5',
+            'genre_names^1',
+            'description'
+          ]
         end
+      end
+
+      sort do
+        by Book.sorts[sort][:field], order: Book.sorts[sort][:order]
       end
     end
   end
