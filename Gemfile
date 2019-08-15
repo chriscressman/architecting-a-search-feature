@@ -43,3 +43,5 @@ gem "elasticsearch", "~> 7.3.0"
 gem "elasticsearch-model", "~> 7.0.0.pre"
 
 gem "elasticsearch-dsl", "~> 0.1.8"
+
+gem "kaminari", "~> 1.1.1"
