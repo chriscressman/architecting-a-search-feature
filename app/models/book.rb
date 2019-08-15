@@ -3,6 +3,9 @@ class Book < ApplicationRecord
   belongs_to :author
   has_and_belongs_to_many :genres
 
+  after_save { SaveSearchBookJob.perform_later(id) }
+  after_destroy { DestroySearchBookJob.perform_later(id) }
+
   index_name "#{Rails.env}-books"
 
   settings number_of_replicas: 0 do
