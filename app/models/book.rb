@@ -54,7 +54,7 @@ class Book < ApplicationRecord
     )
   end
 
-  def self.sorts
+  def self.available_sorts
     {
       best: {
         display_name: 'Best Match',
@@ -74,30 +74,53 @@ class Book < ApplicationRecord
     }
   end
 
-  # search_definition(
-  #   'frankenstein',
-  #   :date,
-  #   { authors: [1], genres: [1,2], published_at_years: [2018] }
-  # )
-  def self.search_definition(search_query, sort=:best, filters={})
-    Elasticsearch::DSL::Search.search do
+  def self.search(q, options={})
+    selected_author = options[:author]
+    selected_genre = options[:genre]
+    selected_year = options[:year]
+    selected_sort = available_sorts[options.fetch(:sort, :best)]
+
+    search_definition = Elasticsearch::DSL::Search.search do
 
       query do
-        multi_match do
-          query search_query
-          fields [
-            'isbn^10',
-            'name^9',
-            'author_name^5',
-            'genre_names^1',
-            'description'
-          ]
+        bool do
+          filter { term author_id: selected_author } if selected_author
+          filter { term genre_ids: selected_genre } if selected_genre
+          filter { term published_at_year: selected_year } if selected_year
+          must do
+            if q.present?
+              multi_match do
+                query q
+                fields [
+                  'isbn^10',
+                  'name^9',
+                  'author_name^5',
+                  'genre_names^1',
+                  'description'
+                ]
+              end
+            else
+              match_all
+            end
+          end
         end
       end
 
       sort do
-        by Book.sorts[sort][:field], order: Book.sorts[sort][:order]
+        by selected_sort[:field], order: selected_sort[:order]
+      end
+
+      aggregation :authors do
+        terms field: 'author_id'
+      end
+      aggregation :genres do
+        terms field: 'genre_ids'
+      end
+      aggregation :years do
+        terms field: 'published_at_year'
       end
     end
+
+    __elasticsearch__.search(search_definition)
   end
 end
