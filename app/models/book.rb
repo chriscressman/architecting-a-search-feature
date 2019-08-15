@@ -1,10 +1,11 @@
 class Book < ApplicationRecord
   include Elasticsearch::Model
   belongs_to :author
-  has_and_belongs_to_many :genres
-
-  after_save { SaveSearchBookJob.perform_later(id) }
-  after_destroy { DestroySearchBookJob.perform_later(id) }
+  has_and_belongs_to_many :genres,
+    after_add: :save_search_book,
+    after_remove: :save_search_book
+  after_save :save_search_book
+  after_destroy :destroy_search_book
 
   index_name "#{Rails.env}-books"
 
@@ -40,6 +41,14 @@ class Book < ApplicationRecord
 
   def genre_names
     genres.map(&:name)
+  end
+
+  def save_search_book(*args)
+    SaveSearchBookJob.perform_later(id)
+  end
+
+  def destroy_search_book(*args)
+    DestroySearchBookJob.perform_later(id)
   end
 
   def as_indexed_json(options={})
