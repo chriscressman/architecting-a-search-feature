@@ -1,24 +1,3 @@
-# README
+This repo contains the presentation slides and the Ruby on Rails application I wrote for the presentation "Architecting a Search Feature (in Rails)".
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+For the slides, see presentation.odp or presentation.pdf.
